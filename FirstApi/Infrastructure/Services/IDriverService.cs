@@ -8,6 +8,6 @@ namespace FirstApi.Infrastructure.Services
 {
     public interface IDriverService
     {
-        DriverDTO Get(Guid useId);
+        Task<DriverDTO> GetAsync(Guid useId);
     }
 }

@@ -23,15 +23,23 @@ namespace FirstApi.Controllers
 
         // GET api/values/5
         [HttpGet("{email}")]
-        public async Task<UserDTO> Get(string email)
+        public async Task<IActionResult> Get(string email)
         {
-            return await _userService.GetAsync(email);
+            var user = await _userService.GetAsync(email);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return Json(user);
         }
 
         // POST api/values
         [HttpPost]
-        public async Task Post([FromBody]CreateUser request)
-              =>  await _userService.RegisterAsync(request.Email, request.Password, request.UserName);
-        
+        public async Task<IActionResult> Post([FromBody]CreateUser request)
+        {
+            await _userService.RegisterAsync(request.Email, request.Password, request.UserName);
+
+            return Created($"user/{request.Email}", new object());
+        }
     }
 }
