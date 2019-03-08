@@ -1,4 +1,5 @@
-﻿using FirstApi.Core.Domain;
+﻿using AutoMapper;
+using FirstApi.Core.Domain;
 using FirstApi.Core.Repositories;
 using FirstApi.Infrastructure.DTO;
 using System;
@@ -11,32 +12,27 @@ namespace FirstApi.Infrastructure.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IMapper mapper)
         {
             _userRepository = userRepository;
+            _mapper = mapper; 
         }
 
-        public UserDTO Get(string email)
+        public async Task<UserDTO> GetAsync(string email)
         {
-            var user = _userRepository.Get(email);
+            var user = await _userRepository.GetAsync(email);
 
-            return new UserDTO
-            {
-                Id = user.Id,
-                Email = user.Email,
-                FullName = user.FullName,
-                UserName = user.UserName
-            };
-
-
+            return _mapper.Map<User, UserDTO>(user);
+            
         }
 
 
 
-        public void Register(string email, string username, string password)
+        public async Task RegisterAsync(string email, string username, string password)
         {
-            var user = _userRepository.Get(email);
+            var user = await _userRepository.GetAsync(email);
 
             if (user != null)
             {
@@ -45,7 +41,7 @@ namespace FirstApi.Infrastructure.Services
 
             var salt = Guid.NewGuid().ToString("N");
             user = new User(email, password, salt, username);
-            _userRepository.Add(user);
+            await _userRepository.AddAsync(user);
         }
     }
 }

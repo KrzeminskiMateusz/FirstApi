@@ -8,11 +8,11 @@ namespace FirstApi.Core.Repositories
 {
     public interface IUserRepository
     {
-        User Get(string email);
-        User Get(Guid id);
-        IEnumerable<User> GetAll();
-        void Add(User user);
-        void Remove(Guid id);
-        void Update(User user);
+        Task<User> GetAsync(string email);
+        Task<User> GetAsync(Guid id);
+        Task<IEnumerable<User>> GetAllAsync();
+        Task AddAsync(User user);
+        Task RemoveAsync(Guid id);
+        Task UpdateAsync(User user);
     }
 }

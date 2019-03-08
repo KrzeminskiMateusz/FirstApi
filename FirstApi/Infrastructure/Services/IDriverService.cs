@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace FirstApi.Infrastructure.Services
 {
-    public interface IUserService
+    public interface IDriverService
     {
-        Task<UserDTO> GetAsync(string email);
-        Task RegisterAsync(string email, string username, string password);
+        DriverDTO Get(Guid useId);
     }
 }

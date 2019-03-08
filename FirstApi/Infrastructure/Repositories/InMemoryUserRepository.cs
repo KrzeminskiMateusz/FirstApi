@@ -16,34 +16,37 @@ namespace FirstApi.Infrastructure.Repositories
             new User("user3@email.pl", "secred", "salt", "user3")
         };
 
-        public void Add(User user)
+        public async Task AddAsync(User user)
         {
             _users.Add(user);
+            await Task.CompletedTask;
         }
 
-        public User Get(string email)
+        public async Task<User> GetAsync(string email)
         {
-           return _users.Single(x => x.Email == email.ToLower());
+           return await Task.FromResult(_users.SingleOrDefault(x => x.Email == email.ToLower()));
         }
 
-        public User Get(Guid id)
+        public async Task<User> GetAsync(Guid id)
         {
-            return _users.Single(x => x.Id == id);
+            return await Task.FromResult(_users.SingleOrDefault(x => x.Id == id));
         }
 
-        public IEnumerable<User> GetAll()
+        public async Task<IEnumerable<User>> GetAllAsync()
         {
-            return _users;
+            return await Task.FromResult(_users);
         }
 
-        public void Remove(Guid id)
+        public async Task RemoveAsync(Guid id)
         {
-            var user = Get(id);
+            var user = await GetAsync(id);
             _users.Remove(user);
+            await Task.CompletedTask;
         }
 
-        public void Update(User user)
-        {           
+        public async Task UpdateAsync(User user)
+        {
+            await Task.CompletedTask;
         }
     }
 }

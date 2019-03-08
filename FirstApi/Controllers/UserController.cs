@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FirstApi.Infrastructure.Commands;
 using FirstApi.Infrastructure.DTO;
 using FirstApi.Infrastructure.Services;
 using Microsoft.AspNetCore.Http;
@@ -22,9 +23,15 @@ namespace FirstApi.Controllers
 
         // GET api/values/5
         [HttpGet("{email}")]
-        public ActionResult<UserDTO> Get(string email)
+        public async Task<UserDTO> Get(string email)
         {
-            return _userService.Get(email);
+            return await _userService.GetAsync(email);
         }
+
+        // POST api/values
+        [HttpPost]
+        public async Task Post([FromBody]CreateUser request)
+              =>  await _userService.RegisterAsync(request.Email, request.Password, request.UserName);
+        
     }
 }

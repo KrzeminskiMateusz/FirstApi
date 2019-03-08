@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FirstApi.Core.Repositories;
+using FirstApi.Infrastructure.Mappers;
 using FirstApi.Infrastructure.Repositories;
 using FirstApi.Infrastructure.Services;
 using Microsoft.AspNetCore.Builder;
@@ -30,6 +31,7 @@ namespace FirstApi
         {
             services.AddScoped<IUserRepository, InMemoryUserRepository>();
             services.AddScoped<IUserService, UserService>();
+            services.AddSingleton(AutoMapperConfig.Initialize());
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
