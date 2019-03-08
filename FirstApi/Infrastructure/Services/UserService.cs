@@ -40,7 +40,7 @@ namespace FirstApi.Infrastructure.Services
 
             if (user != null)
             {
-                throw new Exception($"User with email: {email} alredy exist");
+                throw new Exception($"User with email: {email} alredy exist.");
             }
 
             var salt = Guid.NewGuid().ToString("N");
